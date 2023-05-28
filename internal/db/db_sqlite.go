@@ -113,7 +113,9 @@ func (s *Sqlite) CreateFile(ctx context.Context, file *snips.File, maxFileCount 
 		return ErrFileLimit
 	}
 
-	file.ID = id.New()
+	if file.ID == "" {
+		file.ID = id.New()
+	}
 	file.CreatedAt = time.Now().UTC()
 	file.UpdatedAt = time.Now().UTC()
 

@@ -7,6 +7,8 @@ import (
 	"io"
 	"strings"
 	"time"
+
+	"github.com/robherley/snips.sh/internal/id"
 )
 
 var (
@@ -19,6 +21,7 @@ type UploadFlags struct {
 	Private   bool
 	Extension string
 	TTL       time.Duration
+	ID        string
 }
 
 func (uf *UploadFlags) Parse(out io.Writer, args []string) error {
@@ -28,6 +31,7 @@ func (uf *UploadFlags) Parse(out io.Writer, args []string) error {
 	uf.BoolVar(&uf.Private, "private", false, "only accessible via creator or signed urls (optional)")
 	uf.StringVar(&uf.Extension, "ext", "", "set the file extension (optional)")
 	uf.DurationVar(&uf.TTL, "ttl", 0, "lifetime of the signed url (optional)")
+	uf.StringVar(&uf.ID, "id", id.New(), "set the id of the file (optional)")
 
 	if err := uf.FlagSet.Parse(args); err != nil {
 		return err

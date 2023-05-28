@@ -320,6 +320,8 @@ func (h *SessionHandler) Upload(sesh *UserSession) {
 				Type:    renderer.DetectFileType(content, flags.Extension, h.Config.EnableGuesser),
 			}
 
+			file.ID = flags.ID
+
 			if err := h.DB.CreateFile(sesh.Context(), &file, h.Config.Limits.FilesPerUser); err != nil {
 				sesh.Error(err, "Unable to create file", "There was an error creating the file: %s", err.Error())
 				return
